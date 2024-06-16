@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family:"poppins", sans-serif;
+    }
+
+    body{
+        min-height: 100vh;
+        background: linear-gradient(180deg, purple, yellow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .central{
+        border: 5px solid #333;
+        height: 350px;
+        border-radius: 35px;
+        width: 110vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    #chrono{
+        font-size: 75px;
+        color: #efefef;
+    }
+    .btns{
+        width: 100vh;
+        height: 75px;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    
+    .btn{
+        height: 45px;
+        width: 150px;
+        border-radius: 10px;
+        font-size: 25px;
+        border: none;
+        background-color: #dfdfdf;
+    }
+
+    .btn:nth-child(1){
+        background-color: green;
+    }
+
+    .btn:nth-child(2){
+        background-color: #3a6eff;
+    }
+    .btn:nth-child(3){
+        background-color: red;
+    }
+    
+
+</style>
+<body>
+    <div class="central">
+        <div id="chrono">00:00:00</div>
+        <div class="btns">
+            <button class="btn" id="start">Démarrer</button>
+            <button class="btn" id="stop">Arreter</button>
+            <button class="btn" id="reset">Rénitialiser</button>
+        </div>
+    </div>
+    <script>
+        const chrono = document.getElementById('chrono');
+        const startBtn = document.getElementById('start');
+        const stopBtn = document.getElementById('stop');
+        const resetBtn = document.getElementById('reset');
+
+        let secondes = 0;
+        let minutes = 0;
+        let heures = 0;
+        let timeSet;
+
+        let estarret = true;
+        const demarrer = () =>{
+            if (estarret){
+                estarret = false;
+                counter();
+            }
+        };
+
+        const counter = () =>{
+            if(estarret) return;
+
+            secondes = parseInt(secondes);
+            minutes = parseInt(minutes);
+            heures = parseInt(heures);
+
+            secondes++;
+
+            if(secondes == 60){
+                minutes++;
+                secondes = 0;
+
+            }
+
+            if(minutes == 60){
+                heures ++;
+                minutes = 0;
+
+            }
+
+            if(secondes < 10){
+                secondes = "0"+secondes;
+            }
+            if(minutes < 10){
+                minutes = "0"+ minutes;
+            }
+            if(heures < 10){
+                heures = "0"+ heures;
+            }
+            chrono.textContent = `${heures}:${minutes}:${secondes}`;
+            timeSet = setTimeout(counter, 1000);
+
+        };
+
+        const arreter = () =>{
+            if(!estarret){
+                estarret = true;
+                clearTimeout(timeSet);
+            }
+        };
+        
+        
+        const renitialiser = () =>{
+            chrono.textContent = "00:00:00";
+            estarret = true;
+            secondes = 0;
+            heures = 0;
+            minutes = 0;
+            clearTimeout(timeSet)
+        };
+
+        startBtn.addEventListener('click', demarrer);
+        resetBtn.addEventListener('click', renitialiser);
+        stopBtn.addEventListener('click', arreter);
+
+
+        
+    </script>
+</body>
+</html>
